@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import mainRouter from './routers/index.ts';
 
 //! Variable d'env
 const { NODE_ENV, PORT } = process.env;
@@ -15,7 +16,8 @@ app.use(morgan('tiny'));
 //? Cors
 app.use(cors());
 
-//!TODO Routing
+//! Routing
+app.use('/api', mainRouter);
 
 //! Démarrage de la Web API
 app.listen(PORT, () => {
