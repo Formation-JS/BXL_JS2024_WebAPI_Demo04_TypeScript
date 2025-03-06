@@ -1,12 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
 
-export interface RequestWithPagination extends Request  {
-    pagination: {
-        offset: number;
-        limit: number;
-    };
-};
-
 export function paginationMiddleware({
     defaultLimit = 10,
     maxLimit = 50
@@ -15,7 +8,7 @@ export function paginationMiddleware({
     /**
      * Middleware de pagination
      */
-    return function (req: RequestWithPagination, res: Response, next: NextFunction) {
+    return function (req: Request, res: Response, next: NextFunction) {
 
         const offsetRecive = (Array.isArray(req.query.offset) ? req.query.offset[0] : req.query.offset)?.toString();
         const limitRecive = (Array.isArray(req.query.limit) ? req.query.limit[0] : req.query.limit)?.toString();
