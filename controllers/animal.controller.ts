@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { AppDataSource } from '../models/db.ts';
 import Animal from '../models/animal.model.ts';
 import BiologicalClass from '../models/biological-class.model.ts';
+import { animalDataValidator } from "../validators/animal.validator.ts";
 
 const animalController = {
 
@@ -57,17 +58,18 @@ const animalController = {
      */
     create: async (req: Request, res: Response) => {
 
-        //TODO Add validation by "Zod"
-        if (!req.body?.name || !req.body?.feeding || !req.body?.specie || !req.body?.bioClass) {
-            res.status(422).json({ error: "Body is invalid !" });
+        //? Validation avec "Zod"
+        const { data, success, error } = animalDataValidator.safeParse(req.body);
+        if (!success) {
+            res.status(422).json({ error: error.flatten().fieldErrors });
             return;
         }
 
         //? Biological Class
         const bcRepo = AppDataSource.getRepository(BiologicalClass);
         const bc = await bcRepo.createQueryBuilder()
-                            .where("LOWER(name) = LOWER(:name)", { name: req.body.bioClass })
-                            .getOne();
+            .where("LOWER(name) = LOWER(:name)", { name: req.body.bioClass })
+            .getOne();
 
         if (!bc) {
             res.status(422).json({ error: "Biological class not valid !" });
@@ -75,10 +77,10 @@ const animalController = {
         }
 
         //? Animal
-        const data: Animal = { ...req.body, bioClass: bc };
+        const animalData: Omit<Animal, 'id'> = { ...data, bioClass: bc };
 
         const animalRepo = AppDataSource.getRepository(Animal);
-        const animal = animalRepo.create(data);
+        const animal = animalRepo.create(animalData);
         animalRepo.save(animal);
 
         res.location(`/api/animal/${animal.id}`);

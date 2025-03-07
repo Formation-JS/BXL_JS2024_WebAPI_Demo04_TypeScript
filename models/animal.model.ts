@@ -14,7 +14,7 @@ export default class Animal {
     feeding: string;
 
     @Column('character varying', { length: 50 })
-    specie: string;
+    specie: string | undefined;
 
     @ManyToOne(() => BiologicalClass, (bc) => bc.animals)
     @JoinColumn()
