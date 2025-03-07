@@ -4,7 +4,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "tsx --env-file=.env app.ts",
-    "dev": "tsx watch --env-file=.env  app.ts",
+    "dev": "tsx watch --env-file=.env app.ts",
+    "init-db": "tsx --env-file=.env init-db.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,7 +19,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.0.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.13.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.21"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

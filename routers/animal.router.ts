@@ -7,6 +7,7 @@ const animalRouter = Router();
 
 animalRouter.route('/')
     .get(paginationMiddleware(), animalController.getAll)
+    .post(animalController.create)
     .all((_, res) => { res.sendStatus(405); });
 
 animalRouter.route('/:id')

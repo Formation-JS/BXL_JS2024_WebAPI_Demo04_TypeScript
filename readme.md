@@ -10,7 +10,7 @@ Solution possible:
 [Documentation TypeScript en Node](https://nodejs.org/en/learn/typescript/introduction) \
 Choix pour la démo : le runner « tsx »
 
-## Packages
+### Packages
 ```
 npm i express@5 morgan cors
 npm i -D typescript tsx
@@ -20,4 +20,24 @@ npm i -D @types/express@5 @types/node @types/morgan @types/cors
 ### Config de TypeScript
 ```
 npx tsc --init
+```
+
+## Database via TypeORM
+
+### Packages
+```
+npm i typeorm pg reflect-metadata
+```
+
+### Config
+Ajouter dans l'app.ts l'import suivant
+```
+import 'reflect-metadata';
+```
+
+Activer les options suivantes dans le fichier "tsconfig"
+```
+"experimentalDecorators": true,
+"emitDecoratorMetadata": true,
+"strictPropertyInitialization": false,
 ```
